@@ -17,6 +17,7 @@ const index = require('./routes/index')
 // const users = require('./routes/users')
 const errorViewRouter = require('./routes/view/error')
 const userViewRouter = require('./routes/view/user')
+const userAPIRouter = require('./routes/api/user')
 
 // error handler
 let onerrorConf = {}
@@ -69,6 +70,7 @@ app.use(session({
 app.use(index.routes(), index.allowedMethods())
 // app.use(users.routes(), users.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
+app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())  // error/404相关路由一定要放在最下面
 
 // error-handling
