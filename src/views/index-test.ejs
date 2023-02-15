@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+<h1><%= title %></h1>
+<p>EJS Welcome to <%= title %></p>
+<%- include('widgets/user-info-test', {
+isMe
+})%>
+<hr>
+<%- include('widgets/blog-list-test', {
+blogList
+})%>
+</body>
+<script>
+    console.log('hhh')
+</script>
+</html>

@@ -7,12 +7,25 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStorage = require('koa-redis')
+const {ignoreRoot} = require("nodemon/lib/config/defaults")
+const { REDIS_CONF } = require("../src/conf/db")
+const { port, host } = REDIS_CONF;
+const { isProd } = require("./utils/env")
+
+// 路由
 const index = require('./routes/index')
 const users = require('./routes/users')
-const {ignoreRoot} = require("nodemon/lib/config/defaults");
+const errorViewRouter = require('./routes/view/error')
 
 // error handler
-onerror(app)
+let onerrorConf = {}
+if (isProd) {
+  onerrorConf = {
+    redirect: '/error'
+  }
+}
+
+onerror(app, onerrorConf)
 
 // middlewares
 app.use(bodyparser({
@@ -46,14 +59,15 @@ app.use(session({
   },
   ttl: 24 * 60 * 60 *1000, // redis中数据的过期时间，设定的和cookie的maxAge一致
   store: redisStorage({
-    // all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
-    all: '127.0.0.1:6379'
+    all: `${host}:${port}`
+    // all: '127.0.0.1:6379'
   })
 }))
 
-// routes
+// 注册路由
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(errorViewRouter.routes(), index.allowedMethods())  // error/404相关路由一定要放在最下面
 
 // error-handling
 app.on('error', (err, ctx) => {
