@@ -11,6 +11,7 @@ const {ignoreRoot} = require("nodemon/lib/config/defaults")
 const { REDIS_CONF } = require("../src/conf/db")
 const { port, host } = REDIS_CONF;
 const { isProd } = require("./utils/env")
+const { SESSION_SECRET_KEY } = require('../src/conf/secretKeys')
 
 // 路由
 const index = require('./routes/index')
@@ -50,7 +51,7 @@ app.use(views(__dirname + '/views', {
 // })
 
 // session config
-app.keys = ['UIsdf_7878#$']  // 这个相当于密钥，可以复杂些
+app.keys = [SESSION_SECRET_KEY]  // 这个相当于密钥，可以复杂些
 app.use(session({
   key: 'weibo.sid', // cookie name 默认是`koa.sid`
   prefix: 'weibo:sess', // redis key 的前缀，默认是`koa:sess`
