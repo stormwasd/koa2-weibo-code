@@ -60,7 +60,27 @@ async function register({ userName, password, gender }) {
     }
 }
 
+/**
+ * 登录
+ * @param ctx
+ * @param userName
+ * @param password
+ * @returns {Promise<void>}
+ */
+async function login(ctx, userName, password) {
+    // 登录成功 ctx.session.userInfo = xxx
+
+    // 获取用户信息
+    const userInfo = await getUserInfo(userName, password)
+    if (!userInfo) {
+        // 登录失败
+        return ErrorModel(loginFailInfo)
+    }
+
+}
+
 module.exports = {
     isExist,
-    register
+    register,
+    login
 }
