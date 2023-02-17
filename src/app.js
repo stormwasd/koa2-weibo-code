@@ -14,7 +14,7 @@ const { isProd } = require("./utils/env")
 const { SESSION_SECRET_KEY } = require('../src/conf/secretKeys')
 
 // 路由
-const index = require('./routes/index')
+// const index = require('./routes/index')
 // const users = require('./routes/users')
 const errorViewRouter = require('./routes/view/error')
 const userViewRouter = require('./routes/view/user')
@@ -69,7 +69,7 @@ app.use(session({
 
 
 // 注册路由
-app.use(index.routes(), index.allowedMethods())
+// app.use(index.routes(), index.allowedMethods())
 // app.use(users.routes(), users.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
