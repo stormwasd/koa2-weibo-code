@@ -62,20 +62,26 @@ async function register({ userName, password, gender }) {
 
 /**
  * 登录
- * @param ctx
- * @param userName
- * @param password
+ * @param ctx koa2 ctx
+ * @param userName 用户名
+ * @param password 密码
  * @returns {Promise<void>}
  */
 async function login(ctx, userName, password) {
     // 登录成功 ctx.session.userInfo = xxx
 
     // 获取用户信息
-    const userInfo = await getUserInfo(userName, password)
+    const userInfo = await getUserInfo(userName, doCrypto(password))
     if (!userInfo) {
         // 登录失败
         return ErrorModel(loginFailInfo)
     }
+
+    // 登录成功
+    if (ctx.session.userInfo == null) {
+        ctx.session.userInfo = userInfo
+    }
+    return new SuccessModel()
 
 }
 

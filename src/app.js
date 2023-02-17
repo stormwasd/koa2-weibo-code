@@ -9,7 +9,7 @@ const session = require('koa-generic-session')
 const redisStorage = require('koa-redis')
 const {ignoreRoot} = require("nodemon/lib/config/defaults")
 const { REDIS_CONF } = require("../src/conf/db")
-const { port, host } = REDIS_CONF;
+// const { port, host } = REDIS_CONF;
 const { isProd } = require("./utils/env")
 const { SESSION_SECRET_KEY } = require('../src/conf/secretKeys')
 
@@ -62,10 +62,11 @@ app.use(session({
   },
   ttl: 24 * 60 * 60 *1000, // redis中数据的过期时间，设定的和cookie的maxAge一致
   store: redisStorage({
-    all: `${host}:${port}`
+    all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
     // all: '127.0.0.1:6379'
   })
 }))
+
 
 // 注册路由
 app.use(index.routes(), index.allowedMethods())
