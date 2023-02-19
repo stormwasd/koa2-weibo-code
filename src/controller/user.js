@@ -3,30 +3,30 @@
  * @author JackLiLi
  */
 
-const { getUserInfo, createUser } = require('../service/user')
+const { getUserInfo, createUser, deleteUser } = require('../service/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const doCrypto = require('../utils/cryp')
 const {
     registerUserNameNotExistInfo,
     registerUserNameExistInfo,
     registerFailInfo,
+    deleteUserFailInfo,
+    loginFailInfo
 } = require('../model/ErrorInfo')
 
 /**
  * 用户名是否存在
  * @param userName
- * @returns {Promise<void>}
+ * @returns {Promise}
  */
 async function isExist(userName) {
     const userInfo = await getUserInfo(userName)
     console.log('userInfo:', userInfo)
     if (userInfo) {
-        console.log('1')
         // 已存在
         return new SuccessModel(userInfo)
         // { errno: 0, data: {...} }
     } else {
-        console.log('2')
         // 不存在
         return new ErrorModel(registerUserNameNotExistInfo)
         // { errno: 10003, message: '用户名未存在' }
@@ -38,7 +38,7 @@ async function isExist(userName) {
  * @param userName 用户名
  * @param password 密码
  * @param gender 性别(1.男 2.女 3.保密)
- * @returns {Promise<void>}
+ * @returns {Promise}
  */
 async function register({ userName, password, gender }) {
     const userInfo = await getUserInfo(userName)
@@ -65,7 +65,7 @@ async function register({ userName, password, gender }) {
  * @param ctx koa2 ctx
  * @param userName 用户名
  * @param password 密码
- * @returns {Promise<void>}
+ * @returns {Promise}
  */
 async function login(ctx, userName, password) {
     // 登录成功 ctx.session.userInfo = xxx
@@ -85,8 +85,26 @@ async function login(ctx, userName, password) {
 
 }
 
+/**
+ * 删除当前用户
+ * @param userName
+ * @returns {Promise}
+ */
+async function deleteCurUser(userName) {
+    // 调用service
+    const result = deleteUser(userName)
+    if (result) {
+        // 成功
+        return new SuccessModel()
+    } else {
+        // 失败
+        return new ErrorModel(deleteUserFailInfo)
+    }
+}
+
 module.exports = {
     isExist,
     register,
-    login
+    login,
+    deleteCurUser
 }
