@@ -51,7 +51,7 @@ const SCHEMA = {
  * @param {Object} data 用户数据
  */
 function userValidate(data = {}) {
-    console.log('data', data)
+    // console.log('data', data)
     return validate(SCHEMA, data)
 }
 
