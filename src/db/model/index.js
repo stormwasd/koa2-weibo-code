@@ -10,7 +10,7 @@ Blog.belongsTo(User, {  // 查询到Blog可以查询到该Blog对应的User
     foreignKey: 'userId'
 })
 
-// User.hasMany(Blog)  // 查询到User可以查询到该User下的所有Blog
+// User.hasMany(Blog)  // 查询到User可以查询到该User下的所有Blog，暂时用不到
 
 module.exports = {
     User,
