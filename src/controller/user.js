@@ -174,6 +174,7 @@ async function logout(ctx) {
     delete ctx.session.userInfo
     return new SuccessModel()
 }
+
 module.exports = {
     isExist,
     register,
