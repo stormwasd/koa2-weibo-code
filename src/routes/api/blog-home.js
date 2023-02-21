@@ -1,5 +1,6 @@
 const router = require('koa-router')()
 const { loginCheck } = require('../../middlewares/loginChecks')
+const { create } = require('../../controller/blog-home')
 
 router.prefix('/api/blog')
 
@@ -8,6 +9,7 @@ router.post('/create', loginCheck, async (ctx, next) => {
     const { content, image } = ctx.request.body
     const { id: userId } = ctx.session.userInfo  // 给id取别名为userId，因为session中存储的是id
     // controller
+    ctx.body = await create({ userId, content, image })
 })
 
 module.exports = router
