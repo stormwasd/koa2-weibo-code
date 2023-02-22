@@ -3,6 +3,7 @@
         <i class="fa fa-users"></i>
         粉丝（<%= count%>）
     </p>
+<!--    <script>console.log('userList:', userList)</script>-->
     <div class="user-list clear-fix">
         <% userList.forEach(user => { %>
             <a href="/profile/<%= user.userName%>" class="user-item float-left">

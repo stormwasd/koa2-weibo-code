@@ -16,12 +16,12 @@ Blog.belongsTo(User, {  // 查询到Blog可以查询到该Blog对应的User
 UserRelation.belongsTo(User, {
     foreignKey: 'followerId'
 })
-// User.hasMany(UserRelation, {
-//     foreignKey: 'userId'
-// })
-UserRelation.belongsTo(User, {
+User.hasMany(UserRelation, {
     foreignKey: 'userId'
 })
+// UserRelation.belongsTo(User, {
+//     foreignKey: 'userId'
+// })
 
 
 module.exports = {
