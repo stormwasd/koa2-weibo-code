@@ -13,7 +13,7 @@ Blog.belongsTo(User, {  // 查询到Blog可以查询到该Blog对应的User
 
 // User.hasMany(Blog)  // 查询到User可以查询到该User下的所有Blog，暂时用不到
 
-UserRelation.belongsTo(User, {
+UserRelation.belongsTo(User, {  // 通过followerId这个外键使得UserRelation关联到User
     foreignKey: 'followerId'
 })
 User.hasMany(UserRelation, {

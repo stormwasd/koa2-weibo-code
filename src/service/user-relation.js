@@ -47,7 +47,9 @@ async function getUsersByFollower(followerId) {
  * @param {number} userId userId
  */
 async function getFollowersByUser(userId) {
-    const result = await UserRelation.findAndCountAll({
+    const result = await UserRelation.findAndCountAll({  // UserRelation这个模型做查询，首先where这个查询就是对于UserRelation这个模型中把userId等于传入的userId的记录拿出来
+        // 续上，通过userId把followerId查询出来，然后我们还要通过followerId找到我关注人的信息，正好include了User这个模型，为什么这个地方就能通过followerId找到用户信息呢？因为我们通过
+        // 续上，UserRelation去find，同时include了User的时候，正好就命中了UserRelation.belongsTo(User, { foreignKey: 'followerId' })
         order: [
             ['id', 'desc']
         ],
@@ -59,9 +61,9 @@ async function getFollowersByUser(userId) {
         ],
         where: {
             userId,
-            followerId: {
-                [Sequelize.Op.ne]: userId
-            }
+            // followerId: {
+            //     [Sequelize.Op.ne]: userId
+            // }
         }
     })
     // result.count 总数

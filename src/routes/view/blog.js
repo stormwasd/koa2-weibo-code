@@ -9,7 +9,7 @@ const {log} = require("debug")
 const { getProfileBlogList } = require('../../controller/blog-profile')
 const { getSquareBlogList } = require('../../controller/blog-square')
 const { isExist } = require("../../controller/user")
-const { getFans } = require("../../controller/user-relation")
+const { getFans, getFollowers } = require("../../controller/user-relation")
 
 /**
  * 首页
@@ -61,7 +61,13 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     const amIFollowed = fansList.some(item => {
         return item.userName === myUserName
     })
-    console.log('fansResult', fansResult)
+
+    //获取关注人列表
+    // controller
+    const followersResult = await getFollowers(curUserInfo.id)
+    const { count: followersCount, followersList } = followersResult.data
+
+
     render_data = {
         blogData: {
             isEmpty,
@@ -77,7 +83,11 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
                 count: fansCount,
                 list: fansList
             },
-            amIFollowed
+            amIFollowed,
+            followersData: {
+                count: followersCount,
+                list: followersList
+            }
         }
     }
     console.log('render_data:', render_data)
