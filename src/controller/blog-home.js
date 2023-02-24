@@ -42,7 +42,6 @@ async function create({ userId, content, image }) {
 async function getHomeBlogList(userId, pageIndex = 0) {
     // service
     const result = await getFollowersBlogList({ userId, pageIndex, pageSize: PAGE_SIZE })
-    console.log('result:', result)
     const { count, blogList } = result
     // 返回
     return new SuccessModel({
