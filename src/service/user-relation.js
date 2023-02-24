@@ -26,9 +26,9 @@ async function getUsersByFollower(followerId) {
                 model: UserRelation,
                 where: {
                     followerId,
-                    // userId: {
-                    //     [Sequelize.Op.ne]: followerId
-                    // }
+                    userId: {
+                        [Sequelize.Op.ne]: followerId  // 获取出来的userId不等于followerId，需要引用Sequelize
+                    }
                 }
             }
         ]
@@ -69,9 +69,9 @@ async function getFollowersByUser(userId) {
         ],
         where: {
             userId,
-            // followerId: {
-            //     [Sequelize.Op.ne]: userId
-            // }
+            followerId: {
+                [Sequelize.Op.ne]: userId  // 不等于userId
+            }
         }
     })
     // result.count 总数
@@ -126,3 +126,4 @@ module.exports = {
     deleteFollower,
     getFollowersByUser
 }
+

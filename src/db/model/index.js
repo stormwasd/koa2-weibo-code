@@ -23,6 +23,11 @@ User.hasMany(UserRelation, {
 //     foreignKey: 'userId'
 // })
 
+Blog.belongsTo(UserRelation, {
+    foreignKey: 'userId',
+    targetKey: 'followerId'  // Blogs表中外键userId关联到userRelations表，那么肯定不能默认关联到seq自动生成的主键id，而是关联到followerId，这样拿到userid对应的多个followerId后也就能查询到该followerId对应的blog
+})
+
 
 module.exports = {
     User,
