@@ -58,11 +58,33 @@ function formatBlog(list) {
 
     if (list instanceof Array) {
         // 数组，微博列表
-        return list.map(_formatDBTime)
+        return list.map(_formatDBTime).map(_formatDBTime)
     }
 
     // 单个对象
-    return _formatDBTime(list)
+    let result = list
+    result = _formatDBTime(result)
+    result = _formatContent(result)
+    return result
+
+}
+
+/**
+ * 格式化微博内容
+ * @param obj
+ * @private
+ */
+function _formatContent(obj) {
+    obj.contentFormat = obj.content
+
+    // 格式化@
+    // '哈喽 @张三- zhangsan 你好'
+    // '哈喽 <a href="/profile/zhangsan">张三</a> 你好'
+    obj.contentFormat = obj.contentFormat.replace(
+
+    )
+
+    return obj
 }
 
 module.exports = {
