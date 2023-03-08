@@ -3,7 +3,7 @@
  *@author JackLiLi
  */
 
-const { DEFAULT_PICTURE } = require('../conf/constant')
+const { DEFAULT_PICTURE, REG_FOR_AT_WHO} = require('../conf/constant')
 const { timeFormat } = require('../utils/dt')
 /**
  * 用户默认头像
@@ -58,10 +58,10 @@ function formatBlog(list) {
 
     if (list instanceof Array) {
         // 数组，微博列表
-        return list.map(_formatDBTime).map(_formatDBTime)
+        return list.map(_formatDBTime).map(_formatContent)
     }
 
-    // 单个对象
+    // 对象
     let result = list
     result = _formatDBTime(result)
     result = _formatContent(result)
@@ -77,11 +77,14 @@ function formatBlog(list) {
 function _formatContent(obj) {
     obj.contentFormat = obj.content
 
-    // 格式化@
-    // '哈喽 @张三- zhangsan 你好'
-    // '哈喽 <a href="/profile/zhangsan">张三</a> 你好'
+    // 格式化 @
+    // from '哈喽 @张三 - zhangsan 你好'
+    // to '哈喽 <a href="/profile/zhangsan">张三</a> 你好'
     obj.contentFormat = obj.contentFormat.replace(
-
+        REG_FOR_AT_WHO,
+        (matchStr, nickName, userName) => {
+            return `<a href="/profile/${userName}">@${nickName}</a>`
+        }
     )
 
     return obj
